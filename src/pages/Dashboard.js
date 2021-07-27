@@ -1,111 +1,91 @@
+/* eslint-disable */ 
 import { Helmet } from 'react-helmet';
 import {
   Box,
   Container,
-  Grid
+  Card,
+  CardContent,
+  TextField,
+  InputAdornment,
+  SvgIcon
 } from '@material-ui/core';
-import Budget from 'src/components/dashboard//Budget';
-import LatestOrders from 'src/components/dashboard//LatestOrders';
-import LatestProducts from 'src/components/dashboard//LatestProducts';
-import Sales from 'src/components/dashboard//Sales';
-import TasksProgress from 'src/components/dashboard//TasksProgress';
-import TotalCustomers from 'src/components/dashboard//TotalCustomers';
-import TotalProfit from 'src/components/dashboard//TotalProfit';
-import TrafficByDevice from 'src/components/dashboard//TrafficByDevice';
+import React, {useEffect, useState} from 'react'
+import { useDispatch , useSelector} from "react-redux";
+import { getAllUsers } from 'src/feature/actions';
+import CustomerListResults from 'src/components/customer/CustomerListResults';
+import { Search as SearchIcon } from 'react-feather';
 
-const Dashboard = () => (
-  <>
-    <Helmet>
-      <title>Dashboard | Material Kit</title>
-    </Helmet>
-    <Box
-      sx={{
-        backgroundColor: 'background.default',
-        minHeight: '100%',
-        py: 3
-      }}
-    >
-      <Container maxWidth={false}>
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <Budget />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalCustomers />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TasksProgress />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalProfit sx={{ height: '100%' }} />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <Sales />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <TrafficByDevice sx={{ height: '100%' }} />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <LatestProducts sx={{ height: '100%' }} />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={12}
-            xl={9}
-            xs={12}
-          >
-            <LatestOrders />
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
-  </>
-);
+const Dashboard = () => {
 
-export default Dashboard;
+  const [searchField, setSearchField] = useState('')
+  const [searchResult, setSearchResult] = useState([])
+
+  const dispatch = useDispatch();
+  const fetchedUser = useSelector(state => state.fetchedUser)
+  const {
+    isLoad, users
+  } = fetchedUser
+
+  useEffect(() => {
+    dispatch(getAllUsers())
+  }, [dispatch])
+
+  const handleSearchChange = (e) => {
+    setSearchField(e.target.value)
+    if(searchField !== '') {
+      let newSearchUserResult = users.filter((user) => Object.values(user).join(" ").toLowerCase().includes(searchField.toLowerCase()))
+      setSearchResult(newSearchUserResult)
+    }else {
+      setSearchResult(users)
+    }
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>Dashboard | Yapth</title>
+      </Helmet>
+      <Box
+        sx={{
+          backgroundColor: 'background.default',
+          minHeight: '100%',
+          py: 3
+        }}
+      >
+        <Container maxWidth={false}>
+            <Box sx={{ my: 3 }}>
+              <Card>
+                <CardContent>
+                  <Box>
+                    <TextField
+                      fullWidth
+                      value={searchField}
+                      onChange={handleSearchChange}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SvgIcon
+                              fontSize="small"
+                              color="action"
+                            >
+                              <SearchIcon />
+                            </SvgIcon>
+                          </InputAdornment>
+                        )
+                      }}
+                      placeholder="Search..."
+                      variant="outlined"
+                    />
+                  </Box>
+                </CardContent>
+              </Card>
+            </Box>
+          <CustomerListResults customers={searchField.length < 1 ? users : searchResult} />
+        </Container>
+      </Box>
+    </>
+  )
+}
+
+export default Dashboard
+

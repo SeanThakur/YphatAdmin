@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable */ 
+// import { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -6,61 +7,71 @@ import {
   Avatar,
   Box,
   Card,
-  Checkbox,
+  // Checkbox,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
+  // TablePagination,
   TableRow,
   Typography
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
+import { useDispatch } from "react-redux";
+import { setUserStatus } from 'src/feature/actions';
 
 const CustomerListResults = ({ customers, ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
+  const dispatch = useDispatch();
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  // const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  // const [limit, setLimit] = useState(10);
+  // const [page, setPage] = useState(0);
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
+  // const handleSelectAll = (event) => {
+  //   let newSelectedCustomerIds;
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   if (event.target.checked) {
+  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
+  //   } else {
+  //     newSelectedCustomerIds = [];
+  //   }
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
+  // const handleSelectOne = (event, id) => {
+  //   const selectedIndex = selectedCustomerIds.indexOf(id);
+  //   let newSelectedCustomerIds = [];
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   if (selectedIndex === -1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+  //   } else if (selectedIndex === 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds.slice(0, selectedIndex),
+  //       selectedCustomerIds.slice(selectedIndex + 1)
+  //     );
+  //   }
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
+  // const handleLimitChange = (event) => {
+  //   setLimit(event.target.value);
+  // };
+
+  // const handlePageChange = (event, newPage) => {
+  //   setPage(newPage);
+  // };
+
+  const handleStatus = (id, name, status) => {
+    window.alert(`Are you sure you want to change the status of ${name}`)
+    dispatch(setUserStatus(id, !status))
+    window.location.reload();
+  }
 
   return (
     <Card {...rest}>
@@ -69,7 +80,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
                     color="primary"
@@ -79,18 +90,21 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     }
                     onChange={handleSelectAll}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
-                  Name
+                  Full Name
                 </TableCell>
                 <TableCell>
                   Email
                 </TableCell>
                 <TableCell>
-                  Location
+                  Phone
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Status
+                </TableCell>
+                <TableCell>
+                  Role
                 </TableCell>
                 <TableCell>
                   Registration date
@@ -98,19 +112,19 @@ const CustomerListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {customers?.map((customer) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={customer._id}
+                  // selected={selectedCustomerIds.indexOf(customer._id) !== -1}
                 >
-                  <TableCell padding="checkbox">
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedCustomerIds.indexOf(customer._id) !== -1}
+                      onChange={(event) => handleSelectOne(event, customer._id)}
                       value="true"
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Box
                       sx={{
@@ -122,13 +136,13 @@ const CustomerListResults = ({ customers, ...rest }) => {
                         src={customer.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(customer.name)}
+                        {getInitials(customer.firstName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {customer.firstName + " " + customer.lastName}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -136,10 +150,25 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     {customer.email}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {customer.phone}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    <Box 
+                      onClick={() => handleStatus(customer._id, customer.firstName, customer.active)}
+                      sx={{
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {customer.active === true ? 'Activated': 'Deactivated'}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    User
                   </TableCell>
                   <TableCell>
                     {moment(customer.createdAt).format('DD/MM/YYYY')}
@@ -150,7 +179,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
           </Table>
         </Box>
       </PerfectScrollbar>
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={customers.length}
         onPageChange={handlePageChange}
@@ -158,7 +187,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
-      />
+      /> */}
     </Card>
   );
 };

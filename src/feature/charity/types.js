@@ -1,0 +1,4 @@
+/* eslint-disable */ 
+export const SET_CHARITY_LOADING = "SET_CHARITY_LOADING"
+export const GET_ALL_CHARITY = "GET_ALL_CHARITY"
+export const GET_CHARITY_DETAIL_ID = "GET_CHARITY_DETAIL_ID"

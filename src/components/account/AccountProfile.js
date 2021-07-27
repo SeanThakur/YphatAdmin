@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
   Avatar,
   Box,
@@ -42,18 +41,6 @@ const AccountProfile = (props) => (
           variant="h3"
         >
           {user.name}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body1"
-        >
-          {`${user.city} ${user.country}`}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body1"
-        >
-          {`${moment().format('hh:mm A')} ${user.timezone}`}
         </Typography>
       </Box>
     </CardContent>

@@ -50,6 +50,8 @@ import {
 
 const HOST = `http://18.224.141.133/api`;
 
+const REACT_API_TOKEN = localStorage.YT_Token
+
 export const setLogin = (data) => async dispatch => {
 
     try{
@@ -201,7 +203,7 @@ export const getAllCharities = () => async dispatch => {
 
 };
 
-export const setCharityDetail = (data, router) => async dispatch => {
+export const setCharityDetail = (data, navigate) => async dispatch => {
 
     try {
 
@@ -222,7 +224,7 @@ export const setCharityDetail = (data, router) => async dispatch => {
             data,
             config
         )
-        .then(() => router.push('/'))
+        .then(() => navigate('/app/charity'))
         
     } catch (error) {
         dispatch({
@@ -268,7 +270,7 @@ export const getAllTemples = () => async dispatch => {
 
 };
 
-export const setTempleDetail = (data, router) => async dispatch => {
+export const setTempleDetail = (data, navigate) => async dispatch => {
 
     try {
 
@@ -289,7 +291,7 @@ export const setTempleDetail = (data, router) => async dispatch => {
             data,
             config
         )
-        .then(() => router.push('/'))
+        .then(() => navigate('/app/temple'))
         
     } catch (error) {
         dispatch({
@@ -335,7 +337,7 @@ export const getAllMeditations = () => async dispatch => {
 
 };
 
-export const setBuddistMeditationDetail = (data, router) => async dispatch => {
+export const setBuddistMeditationDetail = (data, navigate) => async dispatch => {
 
     try {
 
@@ -356,7 +358,7 @@ export const setBuddistMeditationDetail = (data, router) => async dispatch => {
             data,
             config
         )
-        .then(() => router.push('/'))
+        .then(() => navigate('/app/meditation'))
         
     } catch (error) {
         dispatch({
@@ -401,7 +403,7 @@ export const getAllTravels = () => async dispatch => {
 
 };
 
-export const setToursAndTravelDetail = (data, router) => async dispatch => {
+export const setToursAndTravelDetail = (data, navigate) => async dispatch => {
 
     try {
 
@@ -422,7 +424,7 @@ export const setToursAndTravelDetail = (data, router) => async dispatch => {
             data,
             config
         )
-        .then(() => router.push('/'))
+        .then(() => navigate('/app/travel'))
         
     } catch (error) {
         dispatch({
@@ -468,7 +470,7 @@ export const getAllVeganShops = () => async dispatch => {
 
 };
 
-export const setVeganShopDetail = (data, router) => async dispatch => {
+export const setVeganShopDetail = (data, navigate) => async dispatch => {
 
     try {
 
@@ -489,7 +491,7 @@ export const setVeganShopDetail = (data, router) => async dispatch => {
             data,
             config
         )
-        .then(() => router.push('/'))
+        .then(() => navigate('/app/shop'))
         
     } catch (error) {
         dispatch({
@@ -534,7 +536,7 @@ export const getAllEvents = () => async dispatch => {
 
 };
 
-export const setEventsActivitiesInfo = (data, router) => async dispatch => {
+export const setEventsActivitiesInfo = (data, navigate) => async dispatch => {
 
     try {
 
@@ -555,7 +557,7 @@ export const setEventsActivitiesInfo = (data, router) => async dispatch => {
             data,
             config
         )
-        .then(() => router.push('/'))
+        .then(() => navigate('/app/events'))
         
     } catch (error) {
         dispatch({

@@ -29,7 +29,7 @@ const ProductCard = ({ data, ...rest }) => (
         }}
       >
         <CardMedia
-          image={data.images[0].url || 'https://upload.wikimedia.org/wikipedia/commons/1/15/Buddhist_Temple_on_No._5_Road%2C_Richmond%2C_British_Columbia%2C_Canada.jpg'}
+          image={data?.images[0]?.url || 'https://upload.wikimedia.org/wikipedia/commons/1/15/Buddhist_Temple_on_No._5_Road%2C_Richmond%2C_British_Columbia%2C_Canada.jpg'}
           title={data.name}
           style={{
             height: '100%',
